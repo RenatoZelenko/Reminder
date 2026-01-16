@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reminder App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <h1>REMINDER</h1>
+
+  <input type="text" id="taskText" placeholder="Task description">
+  <input type="datetime-local" id="taskDate">
+  <button id="addTask">Add task</button>
+
+  <ul id="taskList"></ul>
+
+  <script type="module" src="app.js"></script>
+
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyC9y61dLJ_mcw3S3h6s1nOfkkFz53mpIRQ",
+    authDomain: "reminder-db-57529.firebaseapp.com",
+    projectId: "reminder-db-57529",
+    storageBucket: "reminder-db-57529.firebasestorage.app",
+    messagingSenderId: "287428931967",
+    appId: "1:287428931967:web:06153c840d818745002a4a"
+  }
+
+  const app = initializeApp(firebaseConfig);
+</script>
+</body>
+</html>
