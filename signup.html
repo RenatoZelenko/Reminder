@@ -1,0 +1,13 @@
+<h2>Sign up</h2>
+<input id="email" type="email">
+<input id="password" type="password">
+<button id="signup">Register</button>
+
+<script type="module" src="auth.js">
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            window.location.replace("index.html");
+        }
+    });
+
+</script>

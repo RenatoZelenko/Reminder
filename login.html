@@ -1,0 +1,13 @@
+<h2>Login</h2>
+<input id="email" type="email">
+<input id="password" type="password">
+<button id="login">Login</button>
+
+<script type="module" src="auth.js">
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            // Če je že prijavljen, ga pošlji na index
+            window.location.replace("index.html");
+        }
+    });
+</script>
