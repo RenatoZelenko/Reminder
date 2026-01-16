@@ -12,23 +12,19 @@ const firebaseConfig = {
   appId: "1:287428931967:web:06153c840d818745002a4a"
 };
 
-// 2️⃣ Inicializacija Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// 3️⃣ DOM elementi
 const list = document.getElementById("list");
 const text = document.getElementById("text");
 const date = document.getElementById("date");
 
-// 4️⃣ Preusmeritev neavtenticiranih uporabnikov
 onAuthStateChanged(auth, user => {
   if (!user) window.location.replace("login.html");
   else loadTasks(user.uid);
 });
 
-// 5️⃣ Dodajanje novega taska
 document.getElementById("add").addEventListener("click", async () => {
   if (!text.value || !date.value) return alert("Vnesi task in datum!");
   await addDoc(collection(db, "tasks"), {
@@ -42,23 +38,40 @@ document.getElementById("add").addEventListener("click", async () => {
   loadTasks(auth.currentUser.uid);
 });
 
-// 6️⃣ Naloži vse task-e za trenutnega uporabnika
 async function loadTasks(uid) {
   list.innerHTML = "";
   const snap = await getDocs(collection(db, "tasks"));
+  
   snap.forEach(d => {
-    if (d.data().userId !== uid) return;
+    const data = d.data();
+    if (data.userId !== uid) return;
+
+    // Pretvorba formata datuma (iz "YYYY-MM-DDTHH:MM" v slovenski format)
+    let lepsiDatum = data.datetime;
+    if (data.datetime) {
+      const datumObjekt = new Date(data.datetime);
+      lepsiDatum = new Intl.DateTimeFormat('sl-SI', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      }).format(datumObjekt);
+    }
+
     const li = document.createElement("li");
+    // Dodal sem še stil, da prečrtamo opravljene taske
+    const stil = data.status === "completed" ? "text-decoration: line-through; opacity: 0.6;" : "";
+
     li.innerHTML = `
-      ${d.data().text} - ${d.data().datetime}
-      <button onclick="toggle('${d.id}', '${d.data().status}')">✔</button>
+      <span style="${stil}">${data.text} — <small>${lepsiDatum}</small></span>
+      <button onclick="toggle('${d.id}', '${data.status}')">✔</button>
       <button onclick="del('${d.id}')">🗑</button>
     `;
     list.appendChild(li);
   });
 }
 
-// 7️⃣ Toggle status
 window.toggle = async (id, status) => {
   await updateDoc(doc(db, "tasks", id), {
     status: status === "due" ? "completed" : "due"
@@ -66,7 +79,6 @@ window.toggle = async (id, status) => {
   loadTasks(auth.currentUser.uid);
 };
 
-// 8️⃣ Brisanje taska
 window.del = async id => {
   await deleteDoc(doc(db, "tasks", id));
   loadTasks(auth.currentUser.uid);
