@@ -1,13 +1,36 @@
-<h2>Login</h2>
-<input id="email" type="email">
-<input id="password" type="password">
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Geslo">
 <button id="login">Login</button>
+<p>Don't have an account? <a href="signup.html">Sign Up</a></p>
 
-<script type="module" src="auth.js">
-    onAuthStateChanged(auth, user => {
-        if (user) {
-            // Če je že prijavljen, ga pošlji na index
-            window.location.replace("index.html");
-        }
-    });
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = { 
+    apiKey: "AIzaSyC9y61dLJ_mcw3S3h6s1nOfkkFz53mpIRQ",
+    authDomain: "reminder-db-57529.firebaseapp.com",
+    projectId: "reminder-db-57529",
+    storageBucket: "reminder-db-57529.firebasestorage.app",
+    messagingSenderId: "287428931967",
+    appId: "1:287428931967:web:06153c840d818745002a4a"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, user => {
+  if (user) window.location.replace("index.html");
+});
+
+document.getElementById("login").addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    window.location.replace("index.html");
+  } catch (error) {
+    alert(error.message);
+  }
+});
 </script>
