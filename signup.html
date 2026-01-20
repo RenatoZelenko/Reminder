@@ -45,11 +45,13 @@
       const btn = document.getElementById("signup");
 
       btn.addEventListener("click", async () => {
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+        const firstName = document.getElementById("firstName").value.trim();
+        const lastName  = document.getElementById("lastName").value.trim();
+        const email     = document.getElementById("email").value.trim();
+        const password  = document.getElementById("password").value;
 
-        if (!email || !password) {
-          alert("Vnesi email in geslo");
+        if (!firstName || !lastName || !email || !password) {
+          alert("Izpolni vsa polja");
           return;
         }
 
@@ -59,6 +61,8 @@
           await setDoc(doc(db, "users", cred.user.uid), {
             uid: cred.user.uid,
             email: cred.user.email,
+            firstName: firstName,
+            lastName: lastName,
             createdAt: serverTimestamp()
           });
 
