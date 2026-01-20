@@ -1,7 +1,19 @@
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Geslo">
-<button id="login">Login</button>
-<p>Don't have an account? <a href="signup.html">Sign Up</a></p>
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<div class="container">
+  <h1>Login</h1>
+
+  <div class="form">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Geslo">
+    <button id="login" type="button">Login</button>
+  </div>
+
+  <p>Don't have an account? <a href="signup.html">Signup</a></p>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";

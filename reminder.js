@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// 1️⃣ Tvoja Firebase konfiguracija
+
 const firebaseConfig = {
   apiKey: "AIzaSyC9y61dLJ_mcw3S3h6s1nOfkkFz53mpIRQ",
   authDomain: "reminder-db-57529.firebaseapp.com",
@@ -15,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
 
 const list = document.getElementById("list");
 const text = document.getElementById("text");
@@ -46,7 +48,7 @@ async function loadTasks(uid) {
     const data = d.data();
     if (data.userId !== uid) return;
 
-    // Pretvorba formata datuma (iz "YYYY-MM-DDTHH:MM" v slovenski format)
+    // Pretvorba formata datuma
     let lepsiDatum = data.datetime;
     if (data.datetime) {
       const datumObjekt = new Date(data.datetime);
@@ -60,7 +62,6 @@ async function loadTasks(uid) {
     }
 
     const li = document.createElement("li");
-    // Dodal sem še stil, da prečrtamo opravljene taske
     const stil = data.status === "completed" ? "text-decoration: line-through; opacity: 0.6;" : "";
 
     li.innerHTML = `
@@ -83,3 +84,13 @@ window.del = async id => {
   await deleteDoc(doc(db, "tasks", id));
   loadTasks(auth.currentUser.uid);
 };
+
+document.getElementById("logout").addEventListener("click", async () => {
+  try {
+    await signOut(auth);
+    window.location.replace("login.html");
+  } catch (error) {
+    alert("Napaka pri odjavi");
+    console.error(error);
+  }
+});

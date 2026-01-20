@@ -7,14 +7,19 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-
+<div class="container">
   <h1>REMINDER</h1>
 
-  <input type="text" id="text" placeholder="Task description">
-  <input type="datetime-local" id="date">
-  <button id="add">Add task</button>
+  <button id="logout">Logout</button>
+
+  <div class="form">
+    <input type="text" id="text" placeholder="Task description">
+    <input type="datetime-local" id="date">
+    <button id="add" type="button">Add task</button>
+  </div>
 
   <ul id="list"></ul>
+</div>
 
   <script type="module" src="reminder.js"></script>
 
