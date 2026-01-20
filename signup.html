@@ -1,6 +1,6 @@
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
+  <title>Signup</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <div class="container">
@@ -44,5 +44,13 @@ document.getElementById("signup").addEventListener("click", async () => {
   } catch (error) {
     alert(error.message);
   }
+  await setDoc(doc(db, "users", cred.user.uid), {
+        uid: cred.user.uid,
+        email: cred.user.email,
+        firstName,
+        lastName,
+        displayName,
+        createdAt: serverTimestamp()
+      })
 });
 </script>
