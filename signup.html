@@ -1,56 +1,74 @@
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Signup</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
+
 <div class="container">
   <h1>Signup</h1>
 
   <div class="form">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Geslo">
-    <button id="signup" type="button">Singup</button>
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Geslo" />
+    <button id="signup" type="button">Signup</button>
   </div>
 
-  <p>Don't have an account? <a href="login.html">Login</a></p>
+  <p>Already have an account? <a href="login.html">Login</a></p>
 </div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {getFirestore, doc, setDoc, serverTimestamp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-const firebaseConfig = { 
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  import {
+    getFirestore,
+    doc,
+    setDoc,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
     apiKey: "AIzaSyC9y61dLJ_mcw3S3h6s1nOfkkFz53mpIRQ",
     authDomain: "reminder-db-57529.firebaseapp.com",
     projectId: "reminder-db-57529",
     storageBucket: "reminder-db-57529.firebasestorage.app",
     messagingSenderId: "287428931967",
     appId: "1:287428931967:web:06153c840d818745002a4a"
-};
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+  };
 
-onAuthStateChanged(auth, user => {
-  if (user) window.location.replace("index.html");
-});
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-document.getElementById("signup").addEventListener("click", async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  onAuthStateChanged(auth, (user) => {
+    if (user) window.location.replace("index.html");
+  });
 
-  try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    window.location.replace("index.html");
-  } catch (error) {
-    alert(error.message);
-  }
-  await setDoc(doc(db, "users", cred.user.uid), {
+  document.getElementById("signup").addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!email || !password) return alert("Vnesi email in geslo!");
+    if (password.length < 6) return alert("Geslo mora imeti vsaj 6 znakov.");
+
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+
+      
+      await setDoc(doc(db, "users", cred.user.uid), {
         uid: cred.user.uid,
         email: cred.user.email,
-        firstName,
-        lastName,
-        displayName,
         createdAt: serverTimestamp()
-      })
-});
+      });
+
+      window.location.replace("index.html");
+    } catch (error) {
+      console.error(error);
+      alert(error.message);
+    }
+  });
 </script>
