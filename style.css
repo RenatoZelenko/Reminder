@@ -124,10 +124,3 @@ li {
 .buttonContainer button:last-child {
   color: red;
 }
-
-.completed {
-  text-decoration: line-through;
-  opacity: 0.6;
-}
-
-
