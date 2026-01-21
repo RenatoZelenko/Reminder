@@ -89,26 +89,6 @@ li {
   align-items: center;
 }
 
-li span {
-  font-size: 14px;
-}
-
-/* Task gumbi */
-li button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 5px;
-}
-
-li button:first-of-type {
-  color: green;
-}
-
-li button:last-of-type {
-  color: red;
-}
-
 .taskContainer {
   display: flex;
   justify-content: space-between;
