@@ -23,21 +23,18 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// DOM
 const list = document.getElementById("list");
 const text = document.getElementById("text");
 const dateInput = document.getElementById("date");
 
-// ---------- DATUM / URA: samo od "zdaj" naprej ----------
-
 // vrne ISO string za datetime-local (YYYY-MM-DDTHH:MM)
 function nowISO() {
   const now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); // timezone fix
+  now.setMinutes(now.getMinutes() - now.getTimezoneOffset()); 
   return now.toISOString().slice(0, 16);
 }
 
-// nastavi value + min na "zdaj"
+// nastavi vrednost + min na "zdaj"
 function setNowAndMin() {
   const iso = nowISO();
   dateInput.value = iso;
@@ -47,7 +44,7 @@ function setNowAndMin() {
 // ob loadu
 setNowAndMin();
 
-// posodabljaj min, če ima user stran dolgo odprto (na 30s)
+// posodabljaj min, če ima user stran dolgo odprto 
 setInterval(() => {
   dateInput.min = nowISO();
 }, 30_000);
@@ -63,7 +60,6 @@ dateInput.addEventListener("change", () => {
   }
 });
 
-// ---------- AUTH / TASKI ----------
 
 onAuthStateChanged(auth, user => {
   if (!user) window.location.replace("login.html");
