@@ -22,6 +22,12 @@ const list = document.getElementById("list");
 const text = document.getElementById("text");
 const date = document.getElementById("date");
 
+const today = new Date();
+today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+
+date.min = today.toISOString().slice(0, 16);
+
+
 onAuthStateChanged(auth, user => {
   if (!user) window.location.replace("login.html");
   else loadTasks(user.uid);
@@ -65,10 +71,15 @@ async function loadTasks(uid) {
     const stil = data.status === "completed" ? "text-decoration: line-through; opacity: 0.6;" : "";
 
     li.innerHTML = `
-      <span style="${stil}">${data.text} — <small>${lepsiDatum}</small></span>
-      <button onclick="toggle('${d.id}', '${data.status}')">✔</button>
-      <button onclick="del('${d.id}')">🗑</button>
-    `;
+      <div class="taskContainer">
+        <span style='${stil}'>${data.text} — ${lepsiDatum}</span>
+        <div class="buttonContainer">
+          <button onclick="toggle('${d.id}', '${data.status}')">✔ Completed</button>
+          <button onclick="del('${d.id}')">🗑 Delete</button>
+        </div>
+      </div>
+  `;
+
     list.appendChild(li);
   });
 }

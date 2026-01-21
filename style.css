@@ -59,7 +59,7 @@ input:focus {
 }
 
 button {
-  padding: 10px;
+  padding: 8px;
   border-radius: 6px;
   border: none;
   cursor: pointer;
@@ -67,9 +67,10 @@ button {
   color: white;
 }
 
-button:hover {
-  background: #aaaaaa;
+button:hover{
+  background-color: #0900ad;
 }
+
 
 /* Seznam taskov */
 ul {
@@ -97,7 +98,7 @@ li button {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 5px;
 }
 
 li button:first-of-type {
@@ -107,3 +108,46 @@ li button:first-of-type {
 li button:last-of-type {
   color: red;
 }
+
+.taskContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.taskContainer span {
+  font-size: 14px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 8px;
+}
+
+/* Task gumbi */
+.buttonContainer button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.buttonContainer button:hover{
+  background-color: #d6d6d6;
+}
+
+.buttonContainer button:first-child {
+  color: green;
+}
+
+.buttonContainer button:last-child {
+  color: red;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+
