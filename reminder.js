@@ -22,7 +22,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
 const list = document.getElementById("list");
 const text = document.getElementById("text");
 const dateInput = document.getElementById("date");
