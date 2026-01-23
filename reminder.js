@@ -33,14 +33,12 @@ function nowISO() {
   return now.toISOString().slice(0, 16);
 }
 
-// nastavi vrednost + min na "zdaj"
+// nastavi vrednost na zdaj
 function setNowAndMin() {
   const iso = nowISO();
   dateInput.value = iso;
   dateInput.min = iso;
 }
-
-// ob loadu
 setNowAndMin();
 
 // posodabljaj min, če ima user stran dolgo odprto 
